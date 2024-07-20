@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+</head>
+<body>
+<form class="form" method="post" action="/lgchk" onsubmit="return checkForm()">
+    <p id="heading">Login</p>
+    {% if error_message %}
+    <p style="color: white;">{{ error_message }}</p>
+{% endif %}
+    <div class="field">
+        <span class="material-symbols-outlined"> alternate_email </span>
+        <input autocomplete="off" placeholder="Username" class="input-field" type="text" name="userid" required/>
+    </div>
+    <div class="field">
+        <span class="material-symbols-outlined"> lock_open </span>
+        <input placeholder="Password" class="input-field" type="password" name="userpassword" required/>
+    </div>
+    <div class="btn">
+        <button class="button1" type="submit">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+        <button class="button2" onclick="window.location.href='/join'" type="button">Sign Up</button>
+    </div>
+    <button class="button3" onclick="window.location.href='/forgot_pw'" type="button">Forgot Password</button>
+</form>
+<script>
+    function checkForm() {
+        var username = document.getElementsByName("userid")[0].value;
+        var password = document.getElementsByName("userpassword")[0].value;
+        if (username === "" || password === "") {
+            alert("아이디 혹은 비밀번호를 입력하세요");
+            return false; // 폼 제출 방지
+        }
+        return true; // 폼 제출 허용
+    }
+</script>
+</body>
+</html>

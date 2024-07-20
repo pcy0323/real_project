@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 변경</title>
+    <link rel="stylesheet" href="../static/mypage.css">
+</head>
+<body>
+    <header>
+        <button class="logout-button" onclick="window.location.href='/logout'">로그아웃</button>
+        <h1><center>비밀번호 변경</center></h1>
+        <div class="details">
+            <div class="dropdown">
+                <form action="/lgin" method="post" >
+                <button type="submit" class="dropbtn">홈으로</button>
+            </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        
+        <div class="menu">
+            {% if idExist %}
+            <p style="color: red; text-align: center; display: none;">{{idExist}}</p>
+            {% endif %}
+            
+            <form action="/changePW" method="post">
+            <div class="password-section">
+                <label class="label" for="newPW">변경할 비밀번호</label>
+                <input type="password" id="new-password" name="newPW" placeholder="새 비밀번호를 입력하세요">
+            </div>
+            <div class="password-section">
+                <label class="label" for="conPW">변경할 비밀번호 확인</label>
+                <input type="password" id="confirm-password" name="conPW" placeholder="새 비밀번호를 다시 입력하세요" oninput="checkPasswords()">
+                <p id="password-error">변경할 비밀번호 입력값이 다릅니다.</p>
+            </div>
+            <center>
+                
+                    <button class="button" type="submit">비밀번호 변경</button>
+                </form><br />
+        </div></center>
+    </main>
+
+
+    <script>
+        function checkPasswords() {
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorElement = document.getElementById('password-error');
+            if (newPassword !== confirmPassword) {
+                errorElement.style.display = 'block';
+            } else {
+                errorElement.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Application</title>
+    <link rel="stylesheet" href="../static/main.css">
+    <style>
+        .hidden-content {
+            display: none;
+        }
+        .imgBox {
+            position: relative;
+            display: inline-block;
+            width: 150px; /* Adjusted width */
+            height: 150px; /* Adjusted height */
+            transition: transform 0.3s ease; /* Added transition for hover effect */
+        }
+        .imgBox:hover {
+            transform: scale(1.05); /* Added hover effect */
+        }
+        .blue-button {
+            display: none;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            padding:7% 14%;
+            background-color: rgba(255, 255, 255, 0.54);
+            color: rgb(0, 0, 0);
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        .imgBox:hover .blue-button {
+            display: block;
+        }
+        .button {
+            background-color: #3d5157;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .checkout {
+            background-color: #3d5157;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .cart-buttons {
+            background-color: #3d5157;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px 5px;
+        }
+        .dropdown-content button {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background-color: #323539;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: none;
+        }
+        .dropdown-content button:hover {
+            background-color: #3d5157;
+        }
+        .box {
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f8f9fa;
+        }
+        .menu-name {
+            margin-top: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .menu-price {
+            margin-top: 3px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <button class="logout-button" onclick="window.location.href='/logout'">로그아웃</button>
+        <h1>한양매점</h1>
+        <div class="details">
+            <div class="dropdown">
+                <button class="dropbtn">상세정보</button>
+                <div class="dropdown-content">
+                    <button onclick="showContent('transactions')">거래 내역</button>
+                    <button onclick="window.location.href='/mypage'">마이페이지</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="menu">
+            <h2>계좌</h2>
+            <p>{{uc}}</p>
+            <h3>계좌 잔액</h3><br>{{bal}}원
+            <br/>
+            <div id="details-content" class="box">
+                <h2>상세 정보</h2>
+                <div id="content-result"></div>
+            </div>
+        </div>
+        <div class="content">
+            <select id="category-dropdown" class="category-dropdown">
+                <option value="all">전체</option>
+                <option value="snack">스낵</option>
+                <option value="bread">빵</option>
+                <option value="icecream">아이스크림</option>
+                <option value="drink">음료</option>
+            </select>
+            <center>
+                <table>
+                    <tr>
+                        <td class="menus" id="snack">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="썬칩" onclick="addToCart('../static/sun_chip.jpg')">+</button>
+                                <img src="../static/sun_chip.jpg">
+                                <div class="menu-name">썬칩</div>
+                                <div class="menu-price">1800원</div>
+                            </div>
+                            
+                        </td>
+                        <td class="menus" id="snack">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="포카칩 오리지널" onclick="addToCart('../static/poker_original.jpg')">+</button>
+                                <img src="../static/poker_original.jpg">
+                                <div class="menu-name">포카칩 오리지널</div>
+                                <div class="menu-price">1800원</div>
+                            </div>
+                            
+                        </td>
+                        <td class="menus" id="snack">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="포카칩 어니언" onclick="addToCart('../static/poker_onion.jpg')">+</button>
+                                <img src="../static/poker_onion.jpg">
+
+                                <div class="menu-name">포카칩 어니언</div>
+                                <div class="menu-price">1800원</div>
+                            </div>
+                            
+                        </td>
+              <td class="menus" id="snack">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="뿌셔뿌셔 양념치킨맛" onclick="addToCart('../static/ppu_chiken.jpg')">+</button>
+                                <img src="../static/ppu_chiken.jpg">
+
+                                <div class="menu-name">뿌셔뿌셔 양념치킨</div>
+                                <div class="menu-price">1300원</div>
+                            </div></td>
+                    </tr>
+                    <tr>       <td class="menus" id="snack">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="치킨팝" onclick="addToCart('../static/pop.jpg')">+</button>
+                            <img src="../static/pop.jpg">
+                            <div class="menu-name">치킨팝</div>
+                            <div class="menu-price">1300원</div>
+                        </div>
+                        
+                    </td>
+                    <td class="menus" id="snack">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="양파링" onclick="addToCart('../static/ring.jpg')">+</button>
+                            <img src="../static/ring.jpg">
+                            <div class="menu-name">양파링</div>
+                            <div class="menu-price">1800원</div>
+                        </div>
+                        
+                    </td>
+                    <td class="menus" id="snack">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="감자알칩" onclick="addToCart('../static/rkawk.jpg')">+</button>
+                            <img src="../static/rkawk.jpg">
+
+                            <div class="menu-name">감자알칩</div>
+                            <div class="menu-price">1300원</div>
+                        </div>
+                        
+                    </td>
+                    <td class="menus" id="snack">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="스윙칩" onclick="addToCart('../static/swing.jpg')">+</button>
+                            <img src="../static/swing.jpg">
+
+                            <div class="menu-name">스윙칩</div>
+                            <div class="menu-price">1800원</div>
+                        </div></td>
+                </tr>
+                <tr>
+                   
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="포켓몬 초코롤" onclick="addToCart('../static/choco_roll.jpg')">+</button>
+                            <img src="../static/choco_roll.jpg">
+                            <div class="menu-name">포켓몬 초코롤</div>
+                            <div class="menu-price">1500원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="불벅" onclick="addToCart('../static/bul_buk.jpg')">+</button>
+                            <img src="../static/bul_buk.jpg">
+                            <div class="menu-name">불벅</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="파이리빵" onclick="addToCart('../static/hot_bread.jpg')">+</button>
+                            <img src="../static/hot_bread.jpg">
+                            <div class="menu-name">파이리빵</div>
+                            <div class="menu-price">1500원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="초코 소라빵" onclick="addToCart('../static/sora.jpg')">+</button>
+                            <img src="../static/sora.jpg">
+                            <div class="menu-name">초코 소라빵</div>
+                            <div class="menu-price">1500원</div>
+                        </div>
+                    </td>
+                
+                </tr>
+                <tr>
+                   
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="땅콩 샌드" onclick="addToCart('../static/ttangkong.jpg')">+</button>
+                            <img src="../static/ttangkong.jpg">
+                            <div class="menu-name">땅콩 샌드</div>
+                            <div class="menu-price">1800원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="치즈브레드" onclick="addToCart('../static/cheese_bread.jpg')">+</button>
+                            <img src="../static/cheese_bread.jpg">
+                            <div class="menu-name">치즈브레드</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="맛스타" onclick="addToCart('../static/taste_star.jpg')">+</button>
+                            <img src="../static/taste_star.jpg">
+                            <div class="menu-name">맛스타</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="bread">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="초코 소라빵" onclick="addToCart('../static/big_bread.jpg')">+</button>
+                            <img src="../static/big_bread.jpg">
+                            <div class="menu-name">페스츄리</div>
+                            <div class="menu-price">1800원</div>
+                        </div>
+                    </td>
+                
+                </tr>
+                <tr>
+                      
+                            
+                        
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="초코타임" onclick="addToCart('../static/chocotime.jpg')">+</button>
+                            <img src="../static/chocotime.jpg">
+                            <div class="menu-name">초코타임</div>
+                            <div class="menu-price">1500원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="딸기타임" onclick="addToCart('../static/strawberry.jpg')">+</button>
+                            <img src="../static/strawberry.jpg">
+                            <div class="menu-name">딸기타임</div>
+                            <div class="menu-price">1500원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="나랑드 사이다" onclick="addToCart('../static/cider.jpg')">+</button>
+                            <img src="../static/cider.jpg">
+                            <div class="menu-name">나랑드 사이다</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="제로 아이스티" onclick="addToCart('../static/icetea.jpg')">+</button>
+                            <img src="../static/icetea.jpg">
+                            <div class="menu-name">제로 아이스티</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+
+                    </td>
+                </tr>
+                <tr>
+                      
+                            
+                        
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="펩시 제로" onclick="addToCart('../static/pepsi.jpg')">+</button>
+                            <img src="../static/pepsi.jpg">
+                            <div class="menu-name">펩시 제로</div>
+                            <div class="menu-price">1500원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="알로에 봉봉" onclick="addToCart('../static/bong.jpg')">+</button>
+                            <img src="../static/bong.jpg">
+                            <div class="menu-name">알로에 봉봉</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="오란씨" onclick="addToCart('../static/oranc.jpg')">+</button>
+                            <img src="../static/oranc.jpg">
+                            <div class="menu-name">오란씨</div>
+                            <div class="menu-price">1200원</div>
+                        </div>
+                    </td>
+                    <td class="menus" id="drink">
+                        <div class="imgBox">
+                            <button class="blue-button" id="addtocart" value="밀키스 제로" onclick="addToCart('../static/milkiss.jpg')">+</button>
+                            <img src="../static/milkiss.jpg">
+                            <div class="menu-name">밀키스 제로</div>
+                            <div class="menu-price">2000원</div>
+                        </div>
+
+                    </td>
+                </tr>
+                   
+                    <tr>    
+                        <td class="menus" id="icecream">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="구구콘" onclick="addToCart('../static/gugucorn.jpg')">+</button>
+                                <img src="../static/gugucorn.jpg">
+                                <div class="menu-name">구구콘</div>
+                                <div class="menu-price">2000원</div>
+                            </div>
+                        </td>
+                        <td class="menus" id="icecream">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="슈퍼콘" onclick="addToCart('../static/supercorn.jpg')">+</button>
+                                <img src="../static/supercorn.jpg">
+                                <div class="menu-name">  슈퍼콘</div>
+                                <div class="menu-price">2000원</div>
+                            </div>
+                        </td>
+                        <td class="menus" id="icecream">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="비타500 바" onclick="addToCart('../static/500bar.jpg')">+</button>
+                                <img src="../static/500bar.jpg">
+                                <div class="menu-name">비타 500 바</div>
+                                <div class="menu-price">1000원</div>
+                            </div>
+                        </td>
+                        <td class="menus" id="icecream">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="수박바" onclick="addToCart('../static/subak.jpg')">+</button>
+                                <img src="../static/subak.jpg">
+                                <div class="menu-name">수박바</div>
+                                <div class="menu-price">1000원</div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="menus" id="icecream">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="옥동자" onclick="addToCart('../static/okdongja.jpg')">+</button>
+                                <img src="../static/okdongja.jpg">
+                                <div class="menu-name">옥동자</div>
+                                <div class="menu-price">1000원</div>
+                            </div>
+                        </td>
+                        <td class="menus" id="icecream">
+                            <div class="imgBox">
+                                <button class="blue-button" id="addtocart" value="월드콘" onclick="addToCart('../static/world.jpg')">+</button>
+                                <img src="../static/world.jpg">
+                                <div class="menu-name">월드콘</div>
+                                <div class="menu-price">2000원</div>
+                            </div>
+                            <td class="menus" id="icecream">
+                                <div class="imgBox">
+                                    <button class="blue-button" id="addtocart" value="돼지바" onclick="addToCart('../static/pigbar.jpg')">+</button>
+                                    <img src="../static/pigbar.jpg">
+                                    <div class="menu-name">돼지바</div>
+                                    <div class="menu-price">1000원</div>
+                                </div>
+                            </td>
+                            <td class="menus" id="icecream">
+                                <div class="imgBox">
+                                    <button class="blue-button" id="addtocart" value="수박바" onclick="addToCart('../static/sul.jpg')">+</button>
+                                    <img src="../static/sul.jpg">
+                                    <div class="menu-name">설레임</div>
+                                    <div class="menu-price">2000원</div>
+                                </div>
+                            </td>
+                    </tr>
+                </table>
+            </center>
+        </div>
+    <p style="display: none;" id="bal">{{bal}}</p>
+    <form action="/pay" method="post">
+        <div id="buy">
+            <p>장바구니 영역</p>
+            <div id="total-price">총 가격: 0원</div>
+        </div>
+    </form>
+
+    <p></p>
+    </main>
+    <script>
+        document.getElementById("addtocart").addEventListener('click', function () {
+            container = document.getElementById('buy')
+            addEntity = this.value;
+
+            if (!cart[addEntity]) {
+                createjang(addEntity)
+            } else {
+                cart[addEntity] += 1;
+            }
+        })
+
+        function createjang(name) {
+            cart[addEntity] = 1
+            p = container.createElement("p");
+            p.id = 'ptxt';
+            p.textContent = `${cart[addEntity]}개`
+
+            minusbtn = container.createElement("button")
+            minusbtn.id = 'minus'
+            minusbtn.textContent = '-'
+            
+            plusbtn = container.createElement("button")
+            plusbtn.id = 'plus'
+            plusbtn.textContent = "+";
+ 
+        }
+
+        let cart = {};
+
+        function addToCart(imgSrc) {
+            const menuItems = {
+                '../static/chocotime.jpg': '초코타임',
+                '../static/big_bread.jpg':'페스츄리',
+                '../static/sun_chip.jpg':'썬칩',
+                '../static/poker_original.jpg':'포카칩 오리지널',
+                '../static/poker_onion.jpg':'포카칩 어니언',
+                '../static/ppu_chiken.jpg':'뿌셔뿌셔 양념치킨맛',
+                '../static/sora.jpg':'초코 소라빵',
+                '../static/choco_roll.jpg':'포켓몬 초코롤',
+                '../static/hot_bread.jpg':'파이리빵',
+                '../static/gugucorn.jpg':'구구콘',
+                '../static/supercorn.jpg':'슈퍼콘',
+                '../static/cider.jpg':'나랑드 사이다',
+                '../static/bul_buk.jpg':'불벅',
+                '../static/500bar.jpg':'비타 500바',
+                '../static/strawberry.jpg':'딸기타임',
+                '../static/bong.jpg':'알로에 봉봉',
+                '../static/milkiss.jpg':'밀키스 제로',
+                '../static/oranc.jpg':'오란씨',
+                '../static/pepsi.jpg':'펩시 제로',
+                '../static/icetea.jpg':'제로 아이스티',
+                '../static/rkawk.jpg':'감자알칩',
+                '../static/pop.jpg':'치킨팝',
+                '../static/ring.jpg':'양파링',
+                '../static/swing.jpg':'스윙칩',
+                '../static/world.jpg':'월드콘',
+                '../static/okdongja.jpg':'옥동자',
+                '../static/subak.jpg':'수박바',
+                '../static/sul.jpg':'설레임',
+                '../static/pigbar.jpg':'돼지바',
+                '../static/cheese_bread.jpg':'치즈브레드',
+                '../static/ttangkong.jpg':'땅콩 샌드',
+                '../static/taste_star.jpg':'맛스타',
+                
+
+
+            };
+
+            const menuName = menuItems[imgSrc] || 'Unknown item';
+            const itemPrices = {
+        
+                '초코타임':1500,
+                '페스츄리':1800,
+                '썬칩':1800,
+                '포카칩 오리지널':1800,
+                '포카칩 어니언':1800,
+                '뿌셔뿌셔 양념치킨맛':1300,
+                '구구콘':2000,
+                '슈퍼콘':2000,
+                '포켓몬 초코롤':1500,
+                '파이리빵':1500,
+                '초코 소라빵':1500,
+                '불벅':2000,
+                '비타 500바':1000,
+                '딸기타임':1500,
+                '나랑드 사이다':2000,
+                '펩시 제로':1500,
+                '오란씨':1200,
+                '제로 아이스티':2000,
+                '밀키스 제로':2000,
+                '알로에 봉봉':2000,
+                '치킨팝':1300,
+                '감자알칩':1300,
+                '양파링':1800,
+                '스윙칩':1800,
+                '월드콘':2000,
+                '옥동자':1000,
+                '수박바':1000,
+                '설레임':2000,
+                '돼지바':1000,
+                '치즈브레드':2000,
+                '땅콩 샌드':1800,
+                '맛스타':2000,
+
+            };
+            
+            if (cart[menuName]) {
+                cart[menuName]++;
+            } else {
+                cart[menuName] = 1;
+            }
+
+            updateCartDisplay(itemPrices);
+        }
+
+        function removeFromCart(menuName) {
+            if (cart[menuName]) {
+                cart[menuName]--;
+                if (cart[menuName] === 0) {
+                    delete cart[menuName];
+                }
+            }
+
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const buyDiv = document.getElementById('buy');
+            buyDiv.innerHTML = '<p>장바구니 영역</p>';
+
+            let hasItems = false;
+            let totalPrice = 0;
+            const menudiv = document.createElement('div')
+            menudiv.style.maxHeight = '50vh';
+            menudiv.style.overflowY = 'auto';
+            for (const [menuName, count] of Object.entries(cart)) {
+                hasItems = true;
+                const menuItem = document.createElement('p');
+                menuItem.textContent = `${menuName}: ${count}개`;
+                menuItem.innerHTML += '<br/>';
+
+                const removeButton = document.createElement('button');
+                removeButton.textContent = '-';
+                removeButton.className = 'cart-buttons button';
+                removeButton.onclick = () => removeFromCart(menuName);
+
+                const addButton = document.createElement('button');
+                addButton.textContent = '+';
+                addButton.className = 'cart-buttons button';
+                addButton.onclick = () => addToCartByName(menuName);
+
+                menuItem.appendChild(addButton);
+                menuItem.appendChild(removeButton);
+                menudiv.appendChild(menuItem)
+                
+
+                // Calculate total price
+                const itemPrices = {
+                '초코타임':1500,
+                '페스츄리':1800,
+                '썬칩':1800,
+                '포카칩 오리지널':1800,
+                '포카칩 어니언':1800,
+                '뿌셔뿌셔 양념치킨맛':1300,
+                '구구콘':2000,
+                '슈퍼콘':2000,
+                '포켓몬 초코롤':1500,
+                '파이리빵':1500,
+                '초코 소라빵':1500,
+                '불벅':2000,
+                '비타 500바':1000,
+                '딸기타임':1500,
+                '나랑드 사이다':2000,
+                '펩시 제로':1500,
+                '오란씨':1200,
+                '제로 아이스티':2000,
+                '밀키스 제로':2000,
+                '알로에 봉봉':2000,
+                '치킨팝':1300,
+                '감자알칩':1300,
+                '양파링':1800,
+                '스윙칩':1800,
+                '월드콘':2000,
+                '옥동자':1000,
+                '수박바':1000,
+                '설레임':2000,
+                '돼지바':1000,
+                '치즈브레드':2000,
+                '땅콩 샌드':1800,
+                '맛스타':2000
+                };
+                totalPrice += itemPrices[menuName] * count;
+            }
+            buyDiv.appendChild(menudiv);
+            // Add total price element
+            const totalPriceElement = document.createElement('div');
+            totalPriceElement.id = 'total-price';
+            totalPriceElement.name = 'totalPrice'
+            totalPriceElement.textContent = `총 가격: ${totalPrice}원`;
+            buyDiv.appendChild(totalPriceElement);
+            const totalPriceDummy = document.createElement('input');
+            totalPriceDummy.id = 'totalD';
+            totalPriceDummy.name = 'totalD';
+            totalPriceDummy.type = 'number';
+            totalPriceDummy.valueAsNumber = totalPrice;
+            totalPriceDummy.style.display = 'none';
+            buyDiv.appendChild(totalPriceDummy);
+
+            if (hasItems) {
+                const resetButtonContainer = document.createElement('div');
+                resetButtonContainer.id = 'reset-button-container';
+
+                const resetButton = document.createElement('button');
+                resetButton.textContent = '카트 리셋';
+                resetButton.className = 'button';
+                resetButton.onclick = resetCart;
+                resetButtonContainer.appendChild(resetButton);
+
+                const checkoutButton = document.createElement('input');
+                let balances = document.getElementById('bal');
+                checkoutButton.value = '결제하기';
+                checkoutButton.className = 'checkout';
+                checkoutButton.type = 'submit';
+                
+                resetButtonContainer.appendChild(checkoutButton);
+
+                buyDiv.appendChild(resetButtonContainer);
+            }
+        }
+
+        function addToCartByName(menuName) {
+            const checkoutButton = document.getElementsByClassName('checkout');
+            let balances = document.getElementById('bal');
+            if (cart[menuName]) {
+                cart[menuName]++;
+            } else {
+                cart[menuName] = 1;
+            }
+            
+            updateCartDisplay();
+        }
+
+        function resetCart() {
+            cart = {};
+            updateCartDisplay();
+        }
+
+        function checkout1() {
+            
+            alert('잔액이 부족합니다');
+            resetCart();
+        }
+
+        function checkout2() {
+            
+            alert('결제가 완료되었습니다');
+            resetCart();
+        }
+
+        function showContent(type) {
+            const contentResult = document.getElementById('content-result');
+
+            if (type === 'balance') {
+                contentResult.innerHTML = `<h3>계좌 잔액</h3><br>{{bal}}원`;
+            } else if (type === 'transactions') {
+                contentResult.innerHTML = `<h3>거래 내역</h3>{% for i in de %}{{i[0]}} : {{i[1]}}원<br>{% endfor %}`;
+            }
+        }
+
+
+        document.getElementById('category-dropdown').addEventListener('change', function() {
+            let menu = document.getElementsByClassName('menus');
+            
+            for (let i = 0; i < menu.length; i++) {
+                if (menu[i].id === this.value || this.value === 'all') {
+                    menu[i].style.display = '';
+                } else {
+                    menu[i].style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

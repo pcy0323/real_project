@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제 페이지</title>
+    <link rel="stylesheet" href="../static/pay.css">
+        <style>
+            #payBtn:disabled {
+                background-color: #ccc; /* 비활성화된 버튼 배경색 */
+                color: #666; /* 비활성화된 버튼 텍스트 색상 */
+                cursor: not-allowed; /* 비활성화된 버튼 커서 */
+                opacity: 0.5; /* 비활성화된 버튼 불투명도 */
+            }
+        </style>
+</head>
+<body>
+    <p id="preId" style="display: none;">{{pi}}</p>
+    <p id="passnum" style="display: none;">{{data[0]}}</p>
+    <header>
+        <button class="logout-button" onclick="window.location.href='/logout'">로그아웃</button>
+        <h1><center>결제 페이지</center></h1>
+        <div class="details">
+            <div class="dropdown">
+                <form action="/lgin" method="post">
+                    <input type="submit" class="dropbtn" value="홈으로">
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="menu">
+            <h2>결제하기</h2>
+            
+            <div class="admin-section">
+                <label class="label" for="admin-confirm">관리자 확인</label>
+                <input type="password" id="admin-confirm" name="admin-confirm" placeholder="관리자 비밀번호를 입력하세요">
+                <input type="button" class="button" id="adminBtn" onclick="checkAdminPass(document.getElementById('admin-confirm').value);" value="확인">
+            </div>
+            <form class="form" method="post" action="/charge">
+                <div class="recharge-section">
+                    <label class="label" for="amount">충전 금액</label>
+                    <input type="number" id="amount" name="recharge_amount" disabled required placeholder="충전 금액을 입력하세요">
+                    <input type="submit" class="button" id="payBtn" disabled value="계좌 충전">
+                </div>
+            </form>
+        </div>
+    </main>
+    <script>
+        function checkAdminPass(passkey){
+            
+            if (passkey == document.getElementById('passnum').innerHTML) {
+                document.getElementById('payBtn').disabled = false
+                document.getElementById('admin-confirm').disabled = true;
+                document.getElementById('adminBtn').disabled = true;
+                document.getElementById('amount').disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

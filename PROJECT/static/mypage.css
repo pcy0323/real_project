@@ -1,0 +1,87 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #323539;
+    padding: 10px 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.logout-button {
+    background-color: #4f5471;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.menu {
+    width: 300px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+}
+
+h2 {
+    color: #3d5157;
+    text-align: center;
+}
+
+.label {
+    color: #323539;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+input[type="password"], input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.button, .dropbtn {
+    background-color: #4f5471;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: inline-block;
+    text-align: center;
+}
+
+.button:hover, .dropbtn:hover {
+    background-color: #3d5157;
+}
+
+#password-error {
+    color: red;
+    display: none;
+}

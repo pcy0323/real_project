@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" href="../static/mypage.css">
+</head>
+<body>
+    <header>
+        <button class="logout-button" onclick="window.location.href='/logout'">로그아웃</button>
+        <h1><center>마이페이지</center></h1>
+        <div class="details">
+            <div class="dropdown">
+                <form action="/lgin" method="post" >
+                <button type="submit" class="dropbtn">홈으로</button>
+            </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <center>
+        <div class="menu">
+            <h2>마이페이지</h2>
+                    <button class="button" onclick="window.location.href='/changePW'">비밀번호 변경</button>
+                </form><br />
+            <!-- 결제하러 가기 버튼 추가 -->
+            <button class="button" onclick="window.location.href='/charge'">충전하러 가기</button>
+        </div></center>
+    </main>
+</body>
+</html>

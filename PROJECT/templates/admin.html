@@ -1,0 +1,38 @@
+<center>
+    <form action="/charge2" method="post">
+        <!-- <p id="preId" style="display: none;">{{pi}}</p> -->
+        관리자 권한 페이지<br>
+        <table border="1" style="display: inline; ">
+            <tr>
+                <td>아이디</td>
+                <td>비밀번호</td>
+                <td>관리자 부여 비밀번호</td>
+            </tr>
+            {% for ml in data%}
+            <tr>
+                <td>{{ml[0]}}</td>
+                <td>{{ml[1]}}</td>
+                <td>{{ml[2]}}</td>
+            {% endfor%}
+            </tr>
+        </table>
+        <table border="1" style="display: inline;">
+            <tr>
+                <td>잔액</td>
+                <td>계좌번호</td>
+            </tr>
+            {% for ml2 in data2%}
+                <tr>
+                    <td>{{ml2[1]}}</td>
+                    <td>{{ml2[2]}}</td>
+                </tr>
+            {% endfor%}
+        </table>
+        <div>
+            <input type="text" placeholder="충전할 아이디를 입력하세요" id="preId" name="preId">
+            <input type="number" id="amount" name="recharge_amount" placeholder="충전 금액을 입력하세요">
+            <input type="submit" class="button" id="payBtn" value="계좌 충전">
+        </div>
+        <br> <a href="/logout">로그아웃</a>
+    </form>
+</center>
