@@ -17,3 +17,9 @@ foreign key(id) references users(id),
 pay_date date,
 pay int
 );
+
+insert into users values(
+admin,
+admin1234,
+null
+);
